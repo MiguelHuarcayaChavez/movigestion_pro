@@ -6,14 +6,14 @@ Este documento define la infraestructura técnica, el patrón arquitectónico, l
 
 El proyecto se ejecuta sobre las siguientes tecnologías y versiones estables:
 
-* **Lenguaje:** Java 21 LTS (Uso de Virtual Threads habilitado si aplica).
-* **Framework Principal:** Spring Boot 3.4.x.
-* **Gestor de Dependencias:** Maven (pom.xml) o Gradle (build.gradle).
-* **Seguridad:** Spring Security + JSON Web Tokens (`io.jsonwebtoken:jjwt`).
+* **Lenguaje:** Java 21 LTS.
+* **Framework Principal:** Spring Boot 4.0.6.
+* **Gestor de Dependencias:** Maven (pom.xml).
+* **Seguridad:** Spring Security + JSON Web Tokens.
 * **Persistencia:** Spring Data JPA (Hibernate).
 * **Base de Datos:** MySQL 8.4 LTS (Motor InnoDB).
 * **Validaciones:** Spring Boot Validation (Hibernate Validator).
-* **Mapeo de Objetos:** MapStruct o ModelMapper (para conversión Entity <-> DTO).
+* **Mapeo de Objetos:** MapStruct.
 
 ## 2. Patrón Arquitectónico (Monolito por Capas)
 
@@ -29,7 +29,7 @@ El backend se estructura como un **Monolito con Arquitectura Tradicional por Cap
 Todo el código fuente debe ubicarse dentro de `src/main/java/com/fleetmanager/`. Ninguna clase debe crearse fuera de su paquete designado.
 
 ```text
-fleet-manager-backend/
+movigestion/
 ├── .env.example
 ├── Dockerfile
 ├── docker-compose.yml
@@ -38,8 +38,8 @@ fleet-manager-backend/
     └── main/
         ├── java/
         │   └── com/
-        │       └── fleetmanager/
-        │           ├── FleetManagerApplication.java
+        │       └── movigestion/
+        │           ├── MovigestionApplication.java
         │           ├── config/         # Configuraciones (Cors, Beans externos)
         │           ├── security/       # Filtros JWT, configuraciones de Spring Security
         │           ├── controller/     # Endpoints HTTP (@RestController)
