@@ -32,7 +32,7 @@ Implementar la seguridad base del sistema: el inicio de sesión unificado y el r
 
 ### Endpoint 2: Registro de Administradores
 * **Verbo y URL:** `POST /api/v1/auth/register-admin`
-* **Seguridad:** Privado. Requiere cabecera `Authorization: Bearer <token>` con rol `ROLE_ADMIN`.
+* **Seguridad:** Público. (Nota: Se cambia a público para permitir el aprovisionamiento del primer Administrador del sistema cuando la base de datos está vacía).
 * **Request Body (RegisterAdminRequestDTO):**
     ```json
     {
@@ -55,7 +55,6 @@ Implementar la seguridad base del sistema: el inicio de sesión unificado y el r
         }
         ```
     * `400 Bad Request`: Validaciones fallidas de DTO (ej. DNI no tiene 8 caracteres).
-    * `403 Forbidden`: El token enviado pertenece a un rol `ROLE_DRIVER`.
     * `409 Conflict`: Violación de integridad de datos (DNI, usuario o celular duplicados).
 
 ---

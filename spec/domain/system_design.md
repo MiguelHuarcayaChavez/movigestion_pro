@@ -69,7 +69,10 @@ El sistema es stateless (sin estado de sesión en memoria del servidor).
 2. Mecanismo JWT: * Firma criptográfica utilizando el algoritmo HMAC-SHA256.
    * Expiración estricta de 2 horas (120 minutos).
    * El token debe viajar obligatoriamente en la cabecera HTTP: `Authorization: Bearer <token>`.
-3. Filtro de Seguridad (`JwtAuthenticationFilter`): Intercepta todas las peticiones (excepto rutas públicas como `/api/v1/auth/login`). Valida la firma del token, extrae el `id_usuario` y `rol` (`ADMIN` o `DRIVER`), y los inyecta en el `SecurityContextHolder` de Spring para que las capas inferiores tengan contexto del usuario en ejecución.
+3. Filtro de Seguridad (`JwtAuthenticationFilter`): Intercepta todas las peticiones, **excepto** las siguientes rutas públicas permitidas explícitamente en la configuración de Spring Security:
+   * `/api/v1/auth/login` (Inicio de sesión)
+   * `/api/v1/auth/register-admin` (Registro inicial de administración)
+   * `/swagger-ui/**`, `/swagger-ui.html`, `/v3/api-docs/**` (Documentación e interfaz interactiva de APIs)
 
 ## 6. Configuración y Variables de Entorno
 Toda configuración sensible o dependiente del entorno se administra mediante variables de entorno (alojadas en un archivo `.env` en la raíz) e inyectadas a través de `application.properties`. Queda estrictamente prohibido el hardcoding de estas variables.

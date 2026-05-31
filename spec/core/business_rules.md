@@ -10,6 +10,7 @@ El sistema opera bajo un modelo estricto de Control de Acceso Basado en Roles (R
 * **Transportista (`ROLE_DRIVER`):** Rol puramente operativo. **Solo puede** leer la información de sus propios viajes asignados, modificar el estado de su viaje activo y reportar incidencias vinculadas a su persona.
 * **Exclusividad y Separación:** Los roles son mutuamente excluyentes. Un Transportista no tiene acceso a endpoints de configuración global, y un Administrador no puede simular iniciar rutas ni crear incidencias de campo.
 * **Autenticación Inicial:** Los transportistas no pueden registrarse por sí mismos; un Administrador debe proveer obligatoriamente sus credenciales iniciales.
+* **Excepción de Aprovisionamiento Inicial:** El endpoint `/api/v1/auth/register-admin` se expone de forma pública únicamente para permitir el registro del primer usuario administrador del sistema en entornos con bases de datos limpias. Una vez creado el primer registro, el login protegerá el resto del ciclo operativo.
 
 ## 2. Reglas de Integridad General y Auditoría (BR-DATA)
 
