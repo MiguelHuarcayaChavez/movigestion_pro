@@ -20,4 +20,13 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
 
     @Query("SELECT t FROM Trip t WHERE t.driver.id = :idTransportista AND t.estado = :estado")
     List<Trip> findByIdTransportistaAndEstado(@Param("idTransportista") Integer idTransportista, @Param("estado") TripStatusEnum estado);
+
+    @Query("SELECT COUNT(t) FROM Trip t WHERE YEAR(t.fechaCreacion) = YEAR(CURRENT_DATE) AND MONTH(t.fechaCreacion) = MONTH(CURRENT_DATE)")
+    long countTripsCurrentMonth();
+
+    @Query("SELECT COUNT(t) FROM Trip t WHERE t.estado = 'COMPLETADO' AND YEAR(t.fechaCreacion) = YEAR(CURRENT_DATE) AND MONTH(t.fechaCreacion) = MONTH(CURRENT_DATE)")
+    long countCompletedTripsCurrentMonth();
+
+    @Query("SELECT COUNT(t) FROM Trip t WHERE t.estado = 'EN_CAMINO'")
+    long countDriversEnRuta();
 }

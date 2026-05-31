@@ -13,4 +13,7 @@ public interface IncidentRepository extends JpaRepository<Incident, Integer> {
     
     @Query("SELECT i FROM Incident i WHERE i.driver.id = :idTransportista ORDER BY i.fechaReporte DESC")
     List<Incident> findByIdTransportistaOrderByFechaReporteDesc(@Param("idTransportista") Integer idTransportista);
+
+    @Query("SELECT COUNT(i) FROM Incident i WHERE i.trip.estado = 'EN_CAMINO'")
+    long countIncidenciasCriticasActivas();
 }
