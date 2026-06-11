@@ -1,2 +1,5 @@
-/mvnw text eol=lf
+# Forzar finales de línea LF para scripts de Unix/Linux (como el wrapper de Maven)
+**/mvnw text eol=lf
+
+# Forzar finales de línea CRLF para scripts de Windows
 *.cmd text eol=crlf
