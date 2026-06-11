@@ -1,7 +1,7 @@
 # ==========================================
 # PROPIOS
 # ==========================================
-.docs/
+*.docs/
 
 # ==========================================
 # REGLAS GLOBALES / HERRAMIENTAS DE IDE
@@ -80,3 +80,5 @@ frontend/.env.production.local
 # Caché de herramientas de testing o linters
 frontend/.eslintcache
 frontend/.stylelintcache
+docs/BD.sql
+docs/ESPECIFICACION TECNICA MOVIGESTION.docx
