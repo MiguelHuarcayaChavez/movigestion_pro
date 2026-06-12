@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -90,12 +91,24 @@ public class TripServiceImpl implements TripService {
     @Transactional(readOnly = true)
     public List<TripResponseDTO> getDriverTrips(Integer driverId, String scope) {
         if ("active".equalsIgnoreCase(scope)) {
-            return tripRepository.findByIdTransportistaAndEstado(driverId, TripStatusEnum.EN_CAMINO)
-                    .stream().map(this::mapToDTO).collect(Collectors.toList());
+            // 1. Creamos una lista segura para agrupar
+            List<Trip> todosLosActivos = new ArrayList<>();
+
+            // 2. Buscamos viajes ASIGNADOS (pendientes por iniciar)
+            todosLosActivos.addAll(tripRepository.findByIdTransportistaAndEstado(driverId, TripStatusEnum.ASIGNADO));
+
+            // 3. Buscamos viajes EN_CAMINO (actualmente en curso)
+            todosLosActivos.addAll(tripRepository.findByIdTransportistaAndEstado(driverId, TripStatusEnum.EN_CAMINO));
+
+            // 4. Retornamos la combinación mapeada al DTO
+            return todosLosActivos.stream().map(this::mapToDTO).collect(Collectors.toList());
+
         } else if ("pending".equalsIgnoreCase(scope)) {
             return tripRepository.findByIdTransportistaAndEstado(driverId, TripStatusEnum.ASIGNADO)
                     .stream().map(this::mapToDTO).collect(Collectors.toList());
         }
+
+        // Comportamiento por defecto original (solo EN_CAMINO)
         return tripRepository.findByIdTransportistaAndEstado(driverId, TripStatusEnum.EN_CAMINO)
                 .stream().map(this::mapToDTO).collect(Collectors.toList());
     }

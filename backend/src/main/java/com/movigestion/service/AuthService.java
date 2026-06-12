@@ -14,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.movigestion.dto.response.AuthResponseDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -24,16 +25,31 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    public String login(LoginRequestDTO request) {
+    public AuthResponseDTO login(LoginRequestDTO request) {
+        // 1. Validar credenciales
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-        final UserDetails user = userRepository.findByUsername(request.getUsername()).map(u ->
-                org.springframework.security.core.userdetails.User.builder()
-                        .username(u.getUsername())
-                        .password(u.getPassword())
-                        .roles(u.getRol().name())
-                        .build()
-        ).orElseThrow();
-        return jwtUtil.generateToken(user.getUsername(), user.getAuthorities().iterator().next().getAuthority());
+
+        // 2. Obtener tu entidad User real para sacar el ID y el Rol original
+        User user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // 3. Crear el UserDetails para Spring Security (como ya lo hac as)
+        final UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .roles(user.getRol().name())
+                .build();
+
+        // 4. Generar el JWT
+        String token = jwtUtil.generateToken(userDetails.getUsername(), userDetails.getAuthorities().iterator().next().getAuthority());
+
+        // 5. Retornar el DTO con la estructura exacta que espera React
+        return new AuthResponseDTO(
+                user.getId(),
+                user.getUsername(),
+                user.getRol().name(),
+                token
+        );
     }
 
     public UserResponseDTO registerAdmin(RegisterAdminRequestDTO request) {

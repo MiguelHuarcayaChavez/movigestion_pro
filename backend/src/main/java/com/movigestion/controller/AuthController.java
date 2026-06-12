@@ -2,6 +2,7 @@ package com.movigestion.controller;
 
 import com.movigestion.dto.request.LoginRequestDTO;
 import com.movigestion.dto.request.RegisterAdminRequestDTO;
+import com.movigestion.dto.response.AuthResponseDTO;
 import com.movigestion.dto.response.UserResponseDTO;
 import com.movigestion.service.AuthService;
 import jakarta.validation.Valid;
@@ -24,9 +25,9 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@Valid @RequestBody LoginRequestDTO request) {
-        String token = authService.login(request);
-        return ResponseEntity.ok(Map.of("token", token));
+    public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginRequestDTO request) {
+        AuthResponseDTO response = authService.login(request);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/register-admin")

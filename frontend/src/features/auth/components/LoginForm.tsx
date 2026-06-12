@@ -18,7 +18,8 @@ export const LoginForm = () => {
             const response = await loginService({ username, password });
             login(
                 { id_usuario: response.id_usuario, usuario: response.usuario, rol: response.rol },
-                response.token
+                response.token,
+
             );
         } catch (err) {
             if (axios.isAxiosError(err) && err.response?.data) {
