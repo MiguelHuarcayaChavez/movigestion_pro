@@ -7,9 +7,10 @@ import { RegisterAdminForm } from '../features/auth/components/RegisterAdminForm
 import { VehiclesListPage } from '../features/vehicles/pages/VehiclesListPage';
 import { DriversListPage } from '../features/drivers/pages/DriversListPage';
 import { TripsAdminPage } from '../features/trips/pages/TripsAdminPage';
-
-const DashboardPage = () => <div className="text-2xl font-bold">Panel de Administrador</div>;
-const MyTripsDriverPage = () => <div className="text-2xl font-bold">Mis Viajes Activos</div>;
+import { MyTripsDriverPage } from '../features/trips/pages/MyTripsDriverPage';
+import { IncidentsAdminPage } from '../features/incidents/pages/IncidentsAdminPage';
+import { MyIncidentsPage } from '../features/incidents/pages/MyIncidentsPage';
+import { DashboardPage } from '../features/dashboard/pages/DashboardPage';
 
 export const AppRoutes = () => {
     const { user } = useAuth();
@@ -32,10 +33,12 @@ export const AppRoutes = () => {
                         <Route path="/vehicles" element={<VehiclesListPage />} />
                         <Route path="/drivers" element={<DriversListPage />} />
                         <Route path="/trips" element={<TripsAdminPage />} />
+                        <Route path="/incidents" element={<IncidentsAdminPage />} />
                     </Route>
 
                     <Route element={<ProtectedRoute allowedRoles={['DRIVER']} />}>
                         <Route path="/my-trips" element={<MyTripsDriverPage />} />
+                        <Route path="/my-incidents" element={<MyIncidentsPage />} />
                     </Route>
                 </Route>
 

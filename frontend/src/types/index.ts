@@ -6,6 +6,8 @@ export type UserStatus = 'ACTIVO' | 'DE_BAJA';
 
 export type TripStatus = 'SIN_CONDUCTOR_ASIGNADO' | 'ASIGNADO' | 'EN_CAMINO' | 'COMPLETADO' | 'CANCELADO';
 
+export type IncidentClassification = 'VEHICULO' | 'RUTA' | 'CARGA' | 'OTRO';
+
 export interface User {
     id_usuario: number;
     usuario: string;
@@ -83,4 +85,30 @@ export interface RegisterAdminRequest {
     username: string; // Antes: usuario
     password: string; // Antes: contrasena
     celular: string;
+}
+
+export interface Incident {
+    id_incidencia: number;
+    id_envio: number;
+    id_vehiculo: number;
+    id_transportista: number;
+    clasificacion: IncidentClassification;
+    descripcion: string;
+    latitud_reporte: number;
+    longitud_reporte: number;
+    fecha_reporte: string;
+}
+
+export interface CreateIncidentRequest {
+    clasificacion: IncidentClassification;
+    descripcion: string;
+    latitudReporte: number;
+    longitudReporte: number;
+}
+
+export interface DashboardMetrics {
+    totalViajesMes: number;
+    porcentajeEntregasATiempo: number;
+    vehiculosEnMantenimiento: number;
+    incidenciasCriticasActivas: number;
 }

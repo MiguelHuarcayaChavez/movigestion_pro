@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { getTrips, createTrip, updateTripStatus } from '../../../services/trip.service';
 import { getDrivers } from '../../../services/driver.service';
 import { getVehicles } from '../../../services/vehicle.service';
@@ -10,7 +10,7 @@ export const TripsAdminPage = () => {
     const [drivers, setDrivers] = useState<Driver[]>([]);
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
 
-    const loadData = async () => {
+    const loadData = useCallback(async () => {
         try {
             const [tripsData, driversData, vehiclesData] = await Promise.all([
                 getTrips(),
@@ -23,11 +23,11 @@ export const TripsAdminPage = () => {
         } catch (error) {
             console.error(error);
         }
-    };
+    }, []);
 
     useEffect(() => {
         loadData();
-    }, []);
+    }, [loadData]);
 
     const handleCreate = async (data: CreateTripRequest) => {
         try {

@@ -6,6 +6,11 @@ export const getTrips = async (): Promise<Trip[]> => {
     return response.data;
 };
 
+export const getMyTrips = async (): Promise<Trip[]> => {
+    const response = await api.get<Trip[]>('/trips/my-trips');
+    return response.data;
+};
+
 export const createTrip = async (data: CreateTripRequest): Promise<Trip> => {
     const response = await api.post<Trip>('/trips', data);
     return response.data;
